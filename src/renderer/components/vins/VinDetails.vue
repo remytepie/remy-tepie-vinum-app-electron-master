@@ -25,7 +25,7 @@
             <dd>{{ emplacementLabel }}</dd>
           </div>
           <div>
-            <dt>Maturit�</dt>
+            <dt>Maturit�</dt>
             <dd class="vin-details__maturity">
               <span
                 :class="[
@@ -49,10 +49,6 @@
           <div>
             <dt>Potentiel de garde</dt>
             <dd>{{ vin.potentielGarde ?? 'À définir' }}</dd>
-          </div>
-          <div>
-            <dt>Prix moyen</dt>
-            <dd>{{ vin.prixMoyen ? vin.prixMoyen + ' €' : '—' }}</dd>
           </div>
           <div>
             <dt>Dernière mise à jour</dt>
@@ -274,7 +270,6 @@ dd {
   border: 1px dashed #1e293b;
 }
 </style>
-
 
 
 

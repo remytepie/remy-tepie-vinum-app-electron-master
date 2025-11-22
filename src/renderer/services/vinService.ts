@@ -16,7 +16,6 @@ export interface Vin {
   notes?: string;
   tags: string[];
   stock: number;
-  prixMoyen?: number;
   potentielGarde?: string;
   derniereMiseAJour: string;
 }
@@ -33,7 +32,6 @@ export interface VinInput {
   notes?: string;
   tags?: string[];
   stock?: number;
-  prixMoyen?: number;
   potentielGarde?: string;
 }
 
@@ -58,6 +56,30 @@ const invertVinTypeMap: Record<VinType, VinTypeDb> = {
   Liquoreux: 'LIQUOREUX',
   Autre: 'AUTRE',
 };
+const vinTypesAllowed = new Set<VinType>(['Rouge', 'Blanc', 'Rose', 'Effervescent', 'Liquoreux', 'Autre']);
+
+function assertVinPayload(
+  payload: Partial<Vin> | VinInput,
+  { partial }: { partial: boolean },
+): asserts payload is typeof payload {
+  if (!partial) {
+    if (!payload.nom?.trim()) throw new Error('Le nom du vin est obligatoire');
+    if (!payload.type || !vinTypesAllowed.has(payload.type)) throw new Error('Type de vin invalide');
+  } else if (payload.type !== undefined && !vinTypesAllowed.has(payload.type)) {
+    throw new Error('Type de vin invalide');
+  }
+
+  if (payload.millesime !== undefined) {
+    const year = payload.millesime;
+    if (Number.isNaN(year) || year < 1900 || year > 2100) {
+      throw new Error('Millésime invalide');
+    }
+  }
+
+  if (payload.stock !== undefined && payload.stock < 0) {
+    throw new Error('Le stock doit être positif');
+  }
+}
 
 function mapVinRecordToVin(record: VinRecord): Vin {
   return {
@@ -73,7 +95,6 @@ function mapVinRecordToVin(record: VinRecord): Vin {
     notes: record.notes ?? undefined,
     tags: record.tags ?? [],
     stock: record.stock ?? 0,
-    prixMoyen: record.prixMoyen ?? undefined,
     potentielGarde: record.potentielGarde ?? undefined,
     derniereMiseAJour: record.derniereMiseAJour ?? new Date().toISOString(),
   };
@@ -96,6 +117,8 @@ async function hydrateFromElectron() {
 }
 
 async function addVin(payload: VinInput) {
+  assertVinPayload(payload, { partial: false });
+
   if (typeof window !== 'undefined' && window.electronService?.vins) {
     try {
       const created = await window.electronService.vins.addVin({
@@ -110,7 +133,6 @@ async function addVin(payload: VinInput) {
         emplacementPrecision: payload.emplacementPrecision?.trim() || null,
         notes: payload.notes?.trim() || null,
         stock: Math.max(0, payload.stock ?? 0),
-        prixMoyen: payload.prixMoyen ?? null,
         potentielGarde: payload.potentielGarde?.trim() || null,
         tags: payload.tags?.map((tag) => tag.trim()).filter(Boolean) ?? [],
       });
@@ -135,7 +157,6 @@ async function addVin(payload: VinInput) {
     notes: payload.notes?.trim() || undefined,
     tags: payload.tags?.map((tag) => tag.trim()).filter(Boolean) ?? [],
     stock: Math.max(0, payload.stock ?? 0),
-    prixMoyen: payload.prixMoyen,
     potentielGarde: payload.potentielGarde?.trim() || undefined,
     derniereMiseAJour: new Date().toISOString(),
   };
@@ -144,6 +165,8 @@ async function addVin(payload: VinInput) {
 }
 
 async function updateVin(id: number, updates: Partial<Vin>) {
+  assertVinPayload(updates, { partial: true });
+
   if (typeof window !== 'undefined' && window.electronService?.vins) {
     try {
       const updatedRecord = await window.electronService.vins.updateVin(id, {
@@ -158,7 +181,6 @@ async function updateVin(id: number, updates: Partial<Vin>) {
         emplacementPrecision: updates.emplacementPrecision ?? null,
         notes: updates.notes ?? null,
         stock: updates.stock,
-        prixMoyen: updates.prixMoyen ?? null,
         potentielGarde: updates.potentielGarde ?? null,
         tags: updates.tags,
       });

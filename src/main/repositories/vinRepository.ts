@@ -32,7 +32,6 @@ export class VinRepository {
       emplacementPrecision: v.emplacement_precision,
       notes: v.notes,
       stock: v.stock,
-      prixMoyen: this.toNumber(v.prix_moyen),
       potentielGarde: v.potentiel_garde,
       derniereMiseAJour: v.derniere_mise_a_jour ? v.derniere_mise_a_jour.toISOString() : null,
       tags:
@@ -73,7 +72,6 @@ export class VinRepository {
         emplacement_precision: data.emplacementPrecision ?? null,
         notes: data.notes ?? null,
         stock: data.stock ?? 0,
-        prix_moyen: data.prixMoyen ?? null,
         potentiel_garde: data.potentielGarde ?? null,
         tags: data.tags?.length
           ? {
@@ -109,7 +107,6 @@ export class VinRepository {
         emplacement_precision: data.emplacementPrecision,
         notes: data.notes,
         stock: data.stock,
-        prix_moyen: data.prixMoyen,
         potentiel_garde: data.potentielGarde,
         ...(data.tags
           ? {

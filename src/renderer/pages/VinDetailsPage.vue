@@ -45,12 +45,32 @@
           </select>
         </label>
         <label>
-          Région
-          <input v-model="generalForm.region" type="text" placeholder="Bourgogne..." />
+          Pays
+          <input
+            v-model="generalForm.pays"
+            type="text"
+            list="country-options"
+            placeholder="France..."
+          />
+          <datalist id="country-options">
+            <option v-for="country in countryOptions" :key="country" :value="country">
+              {{ country }}
+            </option>
+          </datalist>
         </label>
         <label>
-          Pays
-          <input v-model="generalForm.pays" type="text" placeholder="France..." />
+          Région
+          <input
+            v-model="generalForm.region"
+            type="text"
+            list="region-options"
+            placeholder="Bourgogne..."
+          />
+          <datalist id="region-options">
+            <option v-for="region in regionOptions" :key="region" :value="region">
+              {{ region }}
+            </option>
+          </datalist>
         </label>
         <label>
           Fournisseur
@@ -65,15 +85,26 @@
           Potentiel de garde
           <input v-model="generalForm.potentielGarde" type="text" placeholder="2028-2035" />
         </label>
-        <label>
-          Prix moyen
-          <input v-model.number="generalForm.prixMoyen" type="number" min="0" step="1" />
-        </label>
       </div>
 
       <label>
         Notes
         <textarea v-model="generalForm.notes" rows="3" placeholder="Notes de dégustation ou instructions"></textarea>
+      </label>
+
+      <label>
+        Tags (séparés par des virgules)
+        <input
+          v-model="tagsInput"
+          type="text"
+          list="tag-options"
+          placeholder="Grand cru, A surveiller..."
+        />
+        <datalist id="tag-options">
+          <option v-for="tag in tagSuggestions" :key="tag" :value="tag">
+            {{ tag }}
+          </option>
+        </datalist>
       </label>
 
       <span v-if="generalFeedback" class="vin-details-page__general-feedback">
@@ -105,8 +136,18 @@
           <input
             v-model="emplacementForm.emplacementPrecision"
             type="text"
-            placeholder="Rangée A · Case 1"
+            list="emplacement-precision-options"
+            placeholder="Rangee A - Case 1"
           />
+          <datalist id="emplacement-precision-options">
+            <option
+              v-for="precision in emplacementPrecisionOptions"
+              :key="precision"
+              :value="precision"
+            >
+              {{ precision }}
+            </option>
+          </datalist>
         </label>
       </div>
       <div class="vin-details-page__location-actions">
@@ -158,6 +199,114 @@ const vin = computed(() => vins.value.find((value) => value.id === vinId.value))
 const { isAdmin } = useAuth();
 
 const vinTypes: VinType[] = ['Rouge', 'Blanc', 'Rosé', 'Effervescent', 'Liquoreux', 'Autre'];
+const countryOptions = [
+  'France',
+  'Italie',
+  'Espagne',
+  'Portugal',
+  'Allemagne',
+  'Suisse',
+  'Autriche',
+  'Etats-Unis',
+  'Canada',
+  'Chili',
+  'Argentine',
+  'Uruguay',
+  'Afrique du Sud',
+  'Australie',
+  'Nouvelle-Zelande',
+  'Grece',
+  'Hongrie',
+  'Slovenie',
+  'Georgie',
+  'Liban',
+];
+const emplacementPrecisionOptions = [
+  'Rangee A - Case 1',
+  'Rangee A - Case 2',
+  'Rangee B - Case 1',
+  'Rangee B - Case 2',
+  'Rangee C - Case 1',
+  'Cave principale',
+  'Cave secondaire',
+  'Haut de l etagere',
+  'Bas de l etagere',
+  'Frigo a vin',
+];
+const baseRegionOptions = [
+  'Bordeaux',
+  'Bourgogne',
+  'Champagne',
+  'Vallee du Rhone',
+  'Loire',
+  'Alsace',
+  'Provence',
+  'Languedoc',
+  'Beaujolais',
+  'Jura',
+  'Savoie',
+  'Sud-Ouest',
+  'Corse',
+  'Rioja',
+  'Ribera del Duero',
+  'Priorat',
+  'Douro',
+  'Vinho Verde',
+  'Piemonte',
+  'Toscane',
+  'Veneto',
+  'Sicile',
+  'Mosel',
+  'Baden',
+  'Nahe',
+  'Mendoza',
+  'Maipo Valley',
+  'Colchagua',
+  'Napa Valley',
+  'Sonoma',
+  'Willamette Valley',
+  'Barossa Valley',
+  'Hunter Valley',
+  'Marlborough',
+  'Stellenbosch',
+];
+const regionByCountry: Record<string, string[]> = {
+  France: [
+    'Alsace',
+    'Beaujolais',
+    'Bordeaux',
+    'Bourgogne',
+    'Champagne',
+    'Corse',
+    'Jura',
+    'Languedoc',
+    'Loire',
+    'Provence',
+    'Roussillon',
+    'Savoie',
+    'Sud-Ouest',
+    'Vallee du Rhone',
+  ],
+  Italie: ['Piemonte', 'Toscane', 'Veneto', 'Sicile', 'Puglia', 'Sardaigne', 'Lombardie', 'Umbria'],
+  Espagne: ['Rioja', 'Ribera del Duero', 'Priorat', 'Rias Baixas', 'Navarre', 'Penedes', 'La Mancha'],
+  Portugal: ['Douro', 'Vinho Verde', 'Dao', 'Alentejo', 'Bairrada', 'Lisbonne'],
+  Allemagne: ['Mosel', 'Rheingau', 'Nahe', 'Pfalz', 'Baden', 'Franken'],
+  Suisse: ['Valais', 'Vaud', 'Tessin', 'Geneve'],
+  Autriche: ['Wachau', 'Kamptal', 'Burgenland', 'Styrie'],
+  'Etats-Unis': ['Napa Valley', 'Sonoma', 'Willamette Valley', 'Paso Robles', 'Finger Lakes'],
+  Canada: ['Okanagan', 'Niagara', 'Prince Edward County'],
+  Chili: ['Maipo Valley', 'Colchagua', 'Casablanca', 'Aconcagua'],
+  Argentine: ['Mendoza', 'Salta', 'Patagonie'],
+  Uruguay: ['Canelones', 'Montevideo', 'San Jose'],
+  'Afrique du Sud': ['Stellenbosch', 'Paarl', 'Swartland', 'Constantia'],
+  Australie: ['Barossa Valley', 'Hunter Valley', 'Yarra Valley', 'Margaret River'],
+  'Nouvelle-Zelande': ['Marlborough', 'Hawkes Bay', 'Central Otago'],
+  Grece: ['Santorin', 'Nemea', 'Naoussa'],
+  Hongrie: ['Tokaj', 'Eger', 'Villany'],
+  Slovenie: ['Primorska', 'Podravje', 'Posavje'],
+  Georgie: ['Kakheti', 'Kartli'],
+  Liban: ['Bekaa Valley'],
+};
 
 const generalForm = reactive({
   nom: '',
@@ -167,8 +316,35 @@ const generalForm = reactive({
   pays: '',
   fournisseurId: undefined as number | undefined,
   potentielGarde: '',
-  prixMoyen: undefined as number | undefined,
   notes: '',
+});
+const tagsInput = ref('');
+const regionOptions = computed(() => {
+  const country = generalForm.pays?.trim();
+  if (!country) return baseRegionOptions;
+  return regionByCountry[country] ?? baseRegionOptions;
+});
+const tagSuggestions = computed(() => {
+  const set = new Set<string>();
+  const baseTagSuggestions = [
+    'Grand cru',
+    'Bio',
+    'Biodynamie',
+    'A boire',
+    'A garder',
+    'Carafer',
+    'Sans sulfites',
+    'Fruite',
+    'Epicé',
+    'Boise',
+    'Sec',
+    'Demi-sec',
+    'Moelleux',
+    'Sucre',
+  ];
+  baseTagSuggestions.forEach((tag) => set.add(tag));
+  vins.value.forEach((v) => v.tags?.forEach((t) => set.add(t)));
+  return Array.from(set);
 });
 
 const selectedFournisseurId = computed({
@@ -228,8 +404,8 @@ watch(
     generalForm.pays = current?.pays ?? '';
     generalForm.fournisseurId = current?.fournisseurId;
     generalForm.potentielGarde = current?.potentielGarde ?? '';
-    generalForm.prixMoyen = current?.prixMoyen;
     generalForm.notes = current?.notes ?? '';
+    tagsInput.value = current?.tags?.join(', ') ?? '';
   },
   { immediate: true },
 );
@@ -255,10 +431,10 @@ const handleGeneralUpdate = () => {
     typeof generalForm.millesime === 'number' && !Number.isNaN(generalForm.millesime)
       ? generalForm.millesime
       : undefined;
-  const normalizedPrix =
-    typeof generalForm.prixMoyen === 'number' && !Number.isNaN(generalForm.prixMoyen)
-      ? generalForm.prixMoyen
-      : undefined;
+  const normalizedTags = tagsInput.value
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
   updateVin(vin.value.id, {
     nom: generalForm.nom.trim(),
     type: generalForm.type,
@@ -267,8 +443,8 @@ const handleGeneralUpdate = () => {
     pays: generalForm.pays.trim() || undefined,
     fournisseurId: generalForm.fournisseurId,
     potentielGarde: generalForm.potentielGarde.trim() || undefined,
-    prixMoyen: normalizedPrix,
     notes: generalForm.notes.trim() || undefined,
+    tags: normalizedTags,
   });
   generalFeedback.value = 'Informations mises à jour';
   isUpdatingGeneral.value = false;

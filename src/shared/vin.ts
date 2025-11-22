@@ -13,7 +13,6 @@ export interface VinRecord {
   emplacementPrecision: string | null;
   notes: string | null;
   stock: number;
-  prixMoyen: number | null;
   potentielGarde: string | null;
   derniereMiseAJour: string | null;
   tags: string[];
@@ -31,7 +30,6 @@ export interface VinCreateInput {
   emplacementPrecision?: string | null;
   notes?: string | null;
   stock?: number;
-  prixMoyen?: number | null;
   potentielGarde?: string | null;
   tags?: string[];
 }

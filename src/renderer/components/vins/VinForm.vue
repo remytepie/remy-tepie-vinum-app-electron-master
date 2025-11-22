@@ -27,13 +27,28 @@
       </label>
 
       <label>
-        Region
-        <input v-model="form.region" type="text" placeholder="Bourgogne..." />
+        Pays
+        <input v-model="form.pays" type="text" list="country-options" placeholder="France..." />
+        <datalist id="country-options">
+          <option v-for="country in countryOptions" :key="country" :value="country">
+            {{ country }}
+          </option>
+        </datalist>
       </label>
 
       <label>
-        Pays
-        <input v-model="form.pays" type="text" placeholder="France..." />
+        Region
+        <input
+          v-model="form.region"
+          type="text"
+          list="region-options"
+          placeholder="Bourgogne..."
+        />
+        <datalist id="region-options">
+          <option v-for="region in regionOptions" :key="region" :value="region">
+            {{ region }}
+          </option>
+        </datalist>
       </label>
 
       <label>
@@ -48,11 +63,6 @@
             {{ years }} ans
           </option>
         </select>
-      </label>
-
-      <label>
-        Prix moyen
-        <input v-model.number="form.prixMoyen" type="number" min="0" step="1" />
       </label>
 
       <label>
@@ -73,7 +83,21 @@
 
       <label>
         Emplacement precis
-        <input v-model="form.emplacementPrecision" type="text" placeholder="Rangee A - Case 1" />
+        <input
+          v-model="form.emplacementPrecision"
+          type="text"
+          list="emplacement-precision-options"
+          placeholder="Rangee A - Case 1"
+        />
+        <datalist id="emplacement-precision-options">
+          <option
+            v-for="precision in emplacementPrecisionOptions"
+            :key="precision"
+            :value="precision"
+          >
+            {{ precision }}
+          </option>
+        </datalist>
       </label>
     </div>
 
@@ -84,7 +108,12 @@
 
     <label>
       Tags (separes par des virgules)
-      <input v-model="tagsInput" type="text" placeholder="Grand cru, A surveiller..." />
+      <input v-model="tagsInput" type="text" list="tag-options" placeholder="Grand cru, A surveiller..." />
+      <datalist id="tag-options">
+        <option v-for="tag in tagSuggestions" :key="tag" :value="tag">
+          {{ tag }}
+        </option>
+      </datalist>
     </label>
 
     <p v-if="feedback" class="vin-form__feedback">{{ feedback }}</p>
@@ -92,17 +121,152 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useVinStore, type VinInput, type VinType } from '../../services/vinService';
 import { useFournisseurService } from '../../services/fournisseurService';
 import { useEmplacementService } from '../../services/emplacementService';
 
-const { addVin } = useVinStore();
+const { addVin, vins } = useVinStore();
 const { fournisseurs } = useFournisseurService();
 const { emplacements } = useEmplacementService();
 
 const vinTypes: VinType[] = ['Rouge', 'Blanc', 'Rose', 'Effervescent', 'Liquoreux', 'Autre'];
 const potentielOptions = [2, 4, 6, 8, 10, 12, 15, 20, 25];
+const countryOptions = [
+  'France',
+  'Italie',
+  'Espagne',
+  'Portugal',
+  'Allemagne',
+  'Suisse',
+  'Autriche',
+  'Etats-Unis',
+  'Canada',
+  'Chili',
+  'Argentine',
+  'Uruguay',
+  'Afrique du Sud',
+  'Australie',
+  'Nouvelle-Zelande',
+  'Grece',
+  'Hongrie',
+  'Slovenie',
+  'Georgie',
+  'Liban',
+];
+const baseTagSuggestions = [
+  'Grand cru',
+  'Bio',
+  'Biodynamie',
+  'A boire',
+  'A garder',
+  'Carafer',
+  'Sans sulfites',
+  'Fruite',
+  'Epicé',
+  'Boise',
+  'Sec',
+  'Demi-sec',
+  'Moelleux',
+  'Sucre',
+];
+const baseRegionOptions = [
+  'Bordeaux',
+  'Bourgogne',
+  'Champagne',
+  'Vallee du Rhone',
+  'Loire',
+  'Alsace',
+  'Provence',
+  'Languedoc',
+  'Beaujolais',
+  'Jura',
+  'Savoie',
+  'Sud-Ouest',
+  'Corse',
+  'Rioja',
+  'Ribera del Duero',
+  'Priorat',
+  'Douro',
+  'Vinho Verde',
+  'Piemonte',
+  'Toscane',
+  'Veneto',
+  'Sicile',
+  'Mosel',
+  'Baden',
+  'Nahe',
+  'Mendoza',
+  'Maipo Valley',
+  'Colchagua',
+  'Napa Valley',
+  'Sonoma',
+  'Willamette Valley',
+  'Barossa Valley',
+  'Hunter Valley',
+  'Marlborough',
+  'Stellenbosch',
+];
+const regionByCountry: Record<string, string[]> = {
+  France: [
+    'Alsace',
+    'Beaujolais',
+    'Bordeaux',
+    'Bourgogne',
+    'Champagne',
+    'Corse',
+    'Jura',
+    'Languedoc',
+    'Loire',
+    'Provence',
+    'Roussillon',
+    'Savoie',
+    'Sud-Ouest',
+    'Vallee du Rhone',
+  ],
+  Italie: ['Piemonte', 'Toscane', 'Veneto', 'Sicile', 'Puglia', 'Sardaigne', 'Lombardie', 'Umbria'],
+  Espagne: ['Rioja', 'Ribera del Duero', 'Priorat', 'Rias Baixas', 'Navarre', 'Penedes', 'La Mancha'],
+  Portugal: ['Douro', 'Vinho Verde', 'Dao', 'Alentejo', 'Bairrada', 'Lisbonne'],
+  Allemagne: ['Mosel', 'Rheingau', 'Nahe', 'Pfalz', 'Baden', 'Franken'],
+  Suisse: ['Valais', 'Vaud', 'Tessin', 'Geneve'],
+  Autriche: ['Wachau', 'Kamptal', 'Burgenland', 'Styrie'],
+  'Etats-Unis': ['Napa Valley', 'Sonoma', 'Willamette Valley', 'Paso Robles', 'Finger Lakes'],
+  Canada: ['Okanagan', 'Niagara', 'Prince Edward County'],
+  Chili: ['Maipo Valley', 'Colchagua', 'Casablanca', 'Aconcagua'],
+  Argentine: ['Mendoza', 'Salta', 'Patagonie'],
+  Uruguay: ['Canelones', 'Montevideo', 'San Jose'],
+  'Afrique du Sud': ['Stellenbosch', 'Paarl', 'Swartland', 'Constantia'],
+  Australie: ['Barossa Valley', 'Hunter Valley', 'Yarra Valley', 'Margaret River'],
+  'Nouvelle-Zelande': ['Marlborough', 'Hawkes Bay', 'Central Otago'],
+  Grece: ['Santorin', 'Nemea', 'Naoussa'],
+  Hongrie: ['Tokaj', 'Eger', 'Villany'],
+  Slovenie: ['Primorska', 'Podravje', 'Posavje'],
+  Georgie: ['Kakheti', 'Kartli'],
+  Liban: ['Bekaa Valley'],
+};
+const regionOptions = computed(() => {
+  const country = form.pays?.trim();
+  if (!country) return baseRegionOptions;
+  return regionByCountry[country] ?? baseRegionOptions;
+});
+const emplacementPrecisionOptions = [
+  'Rangee A - Case 1',
+  'Rangee A - Case 2',
+  'Rangee B - Case 1',
+  'Rangee B - Case 2',
+  'Rangee C - Case 1',
+  'Cave principale',
+  'Cave secondaire',
+  'Haut de l etagere',
+  'Bas de l etagere',
+  'Frigo a vin',
+];
+const tagSuggestions = computed(() => {
+  const set = new Set<string>();
+  baseTagSuggestions.forEach((tag) => set.add(tag));
+  vins.value.forEach((vin) => vin.tags?.forEach((tag) => set.add(tag)));
+  return Array.from(set);
+});
 
 const form = reactive<VinInput & { stock: number; potentielGardeYears: number }>({
   nom: '',
@@ -116,7 +280,6 @@ const form = reactive<VinInput & { stock: number; potentielGardeYears: number }>
   notes: '',
   tags: [],
   stock: 6,
-  prixMoyen: undefined,
   potentielGardeYears: 6,
 });
 
@@ -149,7 +312,6 @@ const handleSubmit = () => {
     fournisseurId: undefined,
     emplacementId: undefined,
     emplacementPrecision: '',
-    prixMoyen: undefined,
     tags: [],
   });
   tagsInput.value = '';
