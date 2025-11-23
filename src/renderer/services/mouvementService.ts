@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue';
 import { adjustVinStock, getVinByIdRaw, type Vin } from './vinService';
 import { MouvementRecord, MouvementCreateInput, MouvementUpdateInput } from 'src/shared/mouvement';
+import { useAuth } from './authService';
 
 export type MouvementType = 'ENTREE' | 'SORTIE';
 
@@ -43,6 +44,13 @@ const mouvements = ref<Mouvement[]>([
 
 let nextMouvementId = mouvements.value.length + 1;
 let hasSyncedWithElectron = false;
+const { isAdmin } = useAuth();
+
+function assertAdmin() {
+  if (!isAdmin.value) {
+    throw new Error('Action reservee a un administrateur');
+  }
+}
 
 function mapRecordToMouvement(record: MouvementRecord): Mouvement {
   return {
@@ -79,6 +87,7 @@ async function hydrateFromElectron() {
 }
 
 async function addMouvement(payload: MouvementInput) {
+  assertAdmin();
   const vin = getVinByIdRaw(payload.vinId);
   if (!vin) {
     throw new Error("Vin introuvable - impossible d'enregistrer le mouvement.");
@@ -121,6 +130,7 @@ async function addMouvement(payload: MouvementInput) {
 }
 
 async function updateMouvement(id: number, updates: Partial<MouvementInput>) {
+  assertAdmin();
   const index = mouvements.value.findIndex((mouvement) => mouvement.id === id);
   if (index === -1) return null;
 
@@ -185,6 +195,7 @@ async function updateMouvement(id: number, updates: Partial<MouvementInput>) {
 }
 
 async function deleteMouvement(id: number) {
+  assertAdmin();
   const index = mouvements.value.findIndex((mouvement) => mouvement.id === id);
   if (index === -1) return false;
 

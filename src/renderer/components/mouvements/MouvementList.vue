@@ -26,12 +26,12 @@
           <th class="align-right">Quantité</th>
           <th class="align-center">Date</th>
           <th class="align-left">Commentaire</th>
-          <th class="actions-header align-right">Actions</th>
+          <th v-if="isAdmin" class="actions-header align-right">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="mouvement in rows" :key="mouvement.id">
-          <template v-if="editingId === mouvement.id">
+          <template v-if="editingId === mouvement.id && isAdmin">
             <td class="align-left">
               <select v-model.number="editForm.vinId">
                 <option v-for="vin in vins" :key="vin.id" :value="vin.id">
@@ -69,7 +69,7 @@
             <td class="align-right">{{ mouvement.quantite }}</td>
             <td class="align-center">{{ formatDate(mouvement.date) }}</td>
             <td class="truncate align-left">{{ mouvement.commentaire ?? '-' }}</td>
-            <td class="actions align-right">
+            <td v-if="isAdmin" class="actions align-right">
               <button class="btn btn--ghost" @click="startEdit(mouvement)">Modifier</button>
               <button class="btn btn--danger" @click="confirmDelete(mouvement.id)">Supprimer</button>
             </td>
@@ -85,6 +85,7 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { useMouvementService } from '../../services/mouvementService';
 import type { Mouvement } from '../../services/mouvementService';
 import { getVinByIdRaw, useVinStore } from '../../services/vinService';
+import { useAuth } from '../../services/authService';
 
 const props = defineProps<{
   vinId?: number;
@@ -94,6 +95,7 @@ const props = defineProps<{
 const { mouvements, mouvementTimeline, updateMouvement, deleteMouvement, fetchMouvements } =
   useMouvementService();
 const { vins, fetchVins } = useVinStore();
+const { isAdmin } = useAuth();
 
 onMounted(() => {
   fetchVins();

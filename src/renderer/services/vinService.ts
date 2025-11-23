@@ -1,5 +1,6 @@
 ﻿import { computed, ref } from 'vue';
 import { VinRecord, VinTypeDb } from 'src/shared/vin';
+import { useAuth } from './authService';
 
 export type VinType = 'Rouge' | 'Blanc' | 'Rose' | 'Effervescent' | 'Liquoreux' | 'Autre';
 
@@ -57,6 +58,14 @@ const invertVinTypeMap: Record<VinType, VinTypeDb> = {
   Autre: 'AUTRE',
 };
 const vinTypesAllowed = new Set<VinType>(['Rouge', 'Blanc', 'Rose', 'Effervescent', 'Liquoreux', 'Autre']);
+const { isAdmin } = useAuth();
+
+function assertAdmin() {
+  if (!isAdmin.value) {
+    throw new Error('Action reservee a un administrateur');
+  }
+}
+
 
 function assertVinPayload(
   payload: Partial<Vin> | VinInput,
@@ -117,6 +126,7 @@ async function hydrateFromElectron() {
 }
 
 async function addVin(payload: VinInput) {
+  assertAdmin();
   assertVinPayload(payload, { partial: false });
 
   if (typeof window !== 'undefined' && window.electronService?.vins) {
@@ -165,6 +175,7 @@ async function addVin(payload: VinInput) {
 }
 
 async function updateVin(id: number, updates: Partial<Vin>) {
+  assertAdmin();
   assertVinPayload(updates, { partial: true });
 
   if (typeof window !== 'undefined' && window.electronService?.vins) {
@@ -207,6 +218,7 @@ async function updateVin(id: number, updates: Partial<Vin>) {
 }
 
 async function deleteVin(id: number) {
+  assertAdmin();
   if (typeof window !== 'undefined' && window.electronService?.vins) {
     try {
       await window.electronService.vins.deleteVin(id);
