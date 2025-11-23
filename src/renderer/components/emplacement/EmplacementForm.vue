@@ -47,7 +47,7 @@
 
     <label>
       Notes
-      <textarea v-model="form.notes" rows="2"></textarea>
+      <textarea v-model="form.notes" rows="4" class="notes-field"></textarea>
     </label>
   </form>
 </template>
@@ -143,5 +143,9 @@ textarea {
 
 textarea {
   resize: vertical;
+}
+
+.notes-field {
+  min-height: 140px;
 }
 </style>

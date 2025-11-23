@@ -1,34 +1,6 @@
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "./prisma/generated/client";
-import {
-  EmplacementCreateInput,
-  EmplacementRecord,
-  EmplacementUpdateInput,
-  EmplacementType,
-} from "src/shared/emplacement";
-
-type NotesMeta = {
-  type?: EmplacementType;
-  capacite?: number | null;
-  temperature?: string | null;
-  humidite?: string | null;
-  notes?: string | null;
-};
-
-function parseMeta(notes: string | null): NotesMeta & { raw: string | null } {
-  if (!notes) return { raw: null };
-
-  try {
-    const parsed = JSON.parse(notes) as NotesMeta;
-    if (parsed && typeof parsed === "object") {
-      return { ...parsed, raw: parsed.notes ?? null };
-    }
-  } catch {
-    // not JSON, treat as raw note
-  }
-
-  return { raw: notes };
-}
+import { EmplacementCreateInput, EmplacementRecord, EmplacementUpdateInput } from "src/shared/emplacement";
 
 function toNumberOrNull(value?: string | null): number | null {
   if (!value) return null;
@@ -37,20 +9,9 @@ function toNumberOrNull(value?: string | null): number | null {
   return Number.isFinite(num) ? num : null;
 }
 
-function formatOptionalNumber(value: any): string | null {
+function formatDecimal(value: any): string | null {
   if (value === null || value === undefined) return null;
   return `${value}`;
-}
-
-function buildNotesMeta(input: EmplacementCreateInput | EmplacementUpdateInput): string | null {
-  const meta: NotesMeta = {
-    type: input.type,
-    capacite: input.capacite ?? null,
-    temperature: input.temperature ?? null,
-    humidite: input.humidite ?? null,
-    notes: input.notes ?? null,
-  };
-  return JSON.stringify(meta);
 }
 
 export class EmplacementRepository {
@@ -62,16 +23,14 @@ export class EmplacementRepository {
   }
 
   private mapRecord(e: any): EmplacementRecord {
-    const meta = parseMeta(e.notes ?? null);
-
     return {
       id: e.id,
       nom: e.libelle,
-      type: meta.type ?? "Autre",
-      capacite: meta.capacite ?? null,
-      temperature: meta.temperature ?? formatOptionalNumber(e.temperature),
-      humidite: meta.humidite ?? formatOptionalNumber(e.humidite),
-      notes: meta.raw ?? null,
+      type: "Autre",
+      capacite: null,
+      temperature: formatDecimal(e.temperature),
+      humidite: formatDecimal(e.humidite),
+      notes: e.notes ?? null,
     };
   }
 
@@ -88,7 +47,7 @@ export class EmplacementRepository {
         libelle: data.nom,
         temperature: toNumberOrNull(data.temperature),
         humidite: toNumberOrNull(data.humidite),
-        notes: buildNotesMeta(data),
+        notes: data.notes ?? null,
       },
     });
 
@@ -102,13 +61,7 @@ export class EmplacementRepository {
         libelle: data.nom,
         temperature: data.temperature !== undefined ? toNumberOrNull(data.temperature) : undefined,
         humidite: data.humidite !== undefined ? toNumberOrNull(data.humidite) : undefined,
-        notes: data.type !== undefined ||
-        data.capacite !== undefined ||
-        data.temperature !== undefined ||
-        data.humidite !== undefined ||
-        data.notes !== undefined
-          ? buildNotesMeta(data)
-          : undefined,
+        notes: data.notes !== undefined ? data.notes : undefined,
       },
     });
 

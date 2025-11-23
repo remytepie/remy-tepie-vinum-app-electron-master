@@ -17,7 +17,7 @@
           <h2>Emplacements</h2>
           <p>Visualisez vos caves, casiers et armoires.</p>
         </header>
-        <div class="admin-page__grid">
+        <div class="admin-page__grid admin-page__grid--emplacements">
           <EmplacementForm />
           <EmplacementList />
         </div>
@@ -68,6 +68,10 @@ header p {
 }
 
 .admin-page__grid--fournisseurs {
+  grid-template-columns: 1fr;
+}
+
+.admin-page__grid--emplacements {
   grid-template-columns: 1fr;
 }
 
