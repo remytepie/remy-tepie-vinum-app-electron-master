@@ -502,8 +502,8 @@ onMounted(fetchVins);
 }
 
 .vin-details-page__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
