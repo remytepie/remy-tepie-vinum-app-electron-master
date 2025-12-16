@@ -1,61 +1,56 @@
-# Vinum - Gestion de cave Electron + Vue + Prisma
+# remy-tepie-vinum-app-electron-master – Vinum (Electron + Vue + Prisma)
 
-Application de bureau Electron (Vue 3 + Vite) pour piloter une cave : gestion des vins, mouvements de stock, fournisseurs et emplacements, avec MySQL/MariaDB via Prisma.
+Application Electron (Vue 3 + Vite) pour piloter une cave : vins, mouvements, fournisseurs, emplacements. DB MySQL/MariaDB via Prisma. Legacy todos supprimés.
 
-## Prerequis rapides
-
+## Prerequis
 - Node.js 18+
-- MySQL ou MariaDB 10.6+
+- MySQL/MariaDB 10.6+
 - Git
 
-## Installation express (PowerShell)
-
+## Installation rapide (PowerShell)
 ```powershell
-git clone <votre_repo> vinum-app-electron
-cd vinum-app-electron
+git clone <votre_repo> remy-tepie-vinum-app-electron-master
+cd remy-tepie-vinum-app-electron-master
 npm install
-npx prisma generate --schema prisma/schema.prisma
-npm start
-```
+Base de donnees
+Creer la base :
+sql
 
-### Base de donnees
-
-1) Creer la base :
-```sql
 CREATE DATABASE cave_vins2;
-```
-2) Charger le schema + donnees demo :
-```powershell
+Option SQL directe :
+powershell
+
 mysql -u root -p cave_vins2 < src/main/repositories/prisma/script/script.sql
-```
-3) Renseigner `.env` a la racine :
-```env
+Option Prisma :
+
+powershell
+
+npx prisma@6.17.1 db push --schema prisma/schema.prisma
+npm run seed   # si besoin de données demo
+Fichier .env à la racine :
+env
+
 DATABASE_URL="mysql://root:root@localhost:3306/cave_vins2"
-```
+Lancement
+powershell
 
-### Seed Prisma (optionnel)
+npm start
+Une fenêtre Electron s’ouvre (DevTools actifs).
 
-```powershell
+Commandes utiles
+powershell
+
 npm run seed
-```
+npm run lint
+npm run package
+npm run make
+npx prisma@6.17.1 generate --schema prisma/schema.prisma
+Structure
+src/main : process principal + repositories Prisma
+src/preload : bridge IPC (window.electronService)
+src/renderer : UI Vue 3
+src/shared : types partagés
+prisma/schema.prisma : schéma (domaine vins)
+src/main/repositories/prisma/script/script.sql : script SQL complet
+seed.js : seed Prisma (vins uniquement)
 
-## Structure cle
-
-- `src/main` : process principal Electron + repositories Prisma.
-- `src/preload` : bridge IPC expose dans `window.electronService`.
-- `src/renderer` : UI Vue 3.
-- `src/shared` : types partages.
-- `prisma/schema.prisma` : schema Prisma (domaine vins).
-- `src/main/repositories/prisma/script/script.sql` : script SQL complet.
-- `seed.js` : seed Prisma (vins uniquement).
-
-## Commandes utiles
-
-```powershell
-npm start          # Lancer l'app en dev
-npm run seed       # Peupler la base via Prisma
-npm run lint       # Lint TypeScript
-npm run package    # Builder les artefacts (Forge)
-npm run make       # Generer les installateurs/archives (Forge)
-npx prisma generate --schema prisma/schema.prisma  # Regenerer le client Prisma
-```
