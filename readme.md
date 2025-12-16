@@ -1,6 +1,6 @@
 # remy-tepie-vinum-app-electron-master – Vinum (Electron + Vue + Prisma)
 
-Application Electron (Vue 3 + Vite) pour piloter une cave : vins, mouvements, fournisseurs, emplacements. DB MySQL/MariaDB via Prisma. Legacy todos supprimés.
+Application Electron (Vue 3 + Vite) pour piloter une cave : vins, mouvements, fournisseurs, emplacements. DB MySQL/MariaDB via Prisma.
 
 ## Prerequis
 - Node.js 18+
