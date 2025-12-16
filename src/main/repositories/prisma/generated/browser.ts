@@ -17,21 +17,6 @@ export { Prisma }
 export * as $Enums from './enums.js'
 export * from './enums.js';
 /**
- * Model todos
- * 
- */
-export type todos = Prisma.todosModel
-/**
- * Model tags
- * 
- */
-export type tags = Prisma.tagsModel
-/**
- * Model todo_tags
- * 
- */
-export type todo_tags = Prisma.todo_tagsModel
-/**
  * Model Producteur
  * 
  */

@@ -7,9 +7,6 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/todos.js'
-export type * from './models/tags.js'
-export type * from './models/todo_tags.js'
 export type * from './models/Producteur.js'
 export type * from './models/Fournisseur.js'
 export type * from './models/Emplacement.js'

@@ -5,40 +5,6 @@ dotenv.config();
 
 const prisma = new PrismaClient();
 
-const legacyTags = ['Grand Cru', 'Collection', 'Gastronomie', 'Degustation'];
-const legacyTodos = [
-  {
-    title: 'Puligny-Montrachet 1er Cru Les Pucelles 2018',
-    details: {
-      description: 'Chardonnay tendu et cristallin.',
-      producer: 'Domaine Leflaive',
-      region: 'Bourgogne',
-    },
-    dueDate: '2030-05-01T00:00:00',
-    tags: ['Grand Cru', 'Gastronomie'],
-  },
-  {
-    title: 'Chateau Margaux 2015',
-    details: {
-      description: 'Assemblage cabernet/merlot avec un grand potentiel.',
-      producer: 'Chateau Margaux',
-      region: 'Bordeaux',
-    },
-    dueDate: '2035-01-01T00:00:00',
-    tags: ['Grand Cru', 'Collection'],
-  },
-  {
-    title: 'Sancerre Blanc Les Romains 2022',
-    details: {
-      description: 'Sauvignon blanc droit et salin.',
-      producer: 'Domaine Vacheron',
-      region: 'Loire',
-    },
-    dueDate: '2028-06-15T00:00:00',
-    tags: ['Gastronomie', 'Degustation'],
-  },
-];
-
 const producteurSeed = [
   {
     code: 'leflaive',
@@ -727,44 +693,6 @@ const mouvementSeed = [
   },
 ];
 
-async function seedLegacyTodos() {
-  console.log('Resetting legacy todo tables...');
-  await prisma.todo_tags.deleteMany();
-  await prisma.todos.deleteMany();
-  await prisma.tags.deleteMany();
-
-  const tagRecords = {};
-  for (const name of legacyTags) {
-    const record = await prisma.tags.create({ data: { name } });
-    tagRecords[name] = record;
-  }
-
-  for (const todo of legacyTodos) {
-    const record = await prisma.todos.create({
-      data: {
-        title: todo.title,
-        description: JSON.stringify(todo.details),
-        due_date: new Date(todo.dueDate),
-        is_finished: false,
-      },
-    });
-
-    for (const tagName of todo.tags) {
-      const tag = tagRecords[tagName];
-      if (tag) {
-        await prisma.todo_tags.create({
-          data: {
-            todo_id: record.id,
-            tag_id: tag.id,
-          },
-        });
-      }
-    }
-  }
-
-  console.log(`Inserted ${legacyTodos.length} todos and ${legacyTags.length} tags.`);
-}
-
 async function seedWineDomain() {
   console.log('Resetting wine domain tables...');
   await prisma.mouvement.deleteMany();
@@ -875,7 +803,6 @@ async function seedWineDomain() {
 }
 
 async function main() {
-  await seedLegacyTodos();
   await seedWineDomain();
 }
 

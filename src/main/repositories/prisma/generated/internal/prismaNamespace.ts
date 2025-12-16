@@ -388,9 +388,6 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  todos: 'todos',
-  tags: 'tags',
-  todo_tags: 'todo_tags',
   Producteur: 'Producteur',
   Fournisseur: 'Fournisseur',
   Emplacement: 'Emplacement',
@@ -413,208 +410,10 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "todos" | "tags" | "todo_tags" | "producteur" | "fournisseur" | "emplacement" | "vin" | "vinTag" | "vinTagAssignment" | "mouvement"
+    modelProps: "producteur" | "fournisseur" | "emplacement" | "vin" | "vinTag" | "vinTagAssignment" | "mouvement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
-    todos: {
-      payload: Prisma.$todosPayload<ExtArgs>
-      fields: Prisma.todosFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.todosFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.todosFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload>
-        }
-        findFirst: {
-          args: Prisma.todosFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.todosFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload>
-        }
-        findMany: {
-          args: Prisma.todosFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload>[]
-        }
-        create: {
-          args: Prisma.todosCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload>
-        }
-        createMany: {
-          args: Prisma.todosCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.todosDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload>
-        }
-        update: {
-          args: Prisma.todosUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload>
-        }
-        deleteMany: {
-          args: Prisma.todosDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.todosUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.todosUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todosPayload>
-        }
-        aggregate: {
-          args: Prisma.TodosAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTodos>
-        }
-        groupBy: {
-          args: Prisma.todosGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TodosGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.todosCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TodosCountAggregateOutputType> | number
-        }
-      }
-    }
-    tags: {
-      payload: Prisma.$tagsPayload<ExtArgs>
-      fields: Prisma.tagsFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.tagsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.tagsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload>
-        }
-        findFirst: {
-          args: Prisma.tagsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.tagsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload>
-        }
-        findMany: {
-          args: Prisma.tagsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload>[]
-        }
-        create: {
-          args: Prisma.tagsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload>
-        }
-        createMany: {
-          args: Prisma.tagsCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.tagsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload>
-        }
-        update: {
-          args: Prisma.tagsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload>
-        }
-        deleteMany: {
-          args: Prisma.tagsDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.tagsUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.tagsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$tagsPayload>
-        }
-        aggregate: {
-          args: Prisma.TagsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTags>
-        }
-        groupBy: {
-          args: Prisma.tagsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TagsGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.tagsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TagsCountAggregateOutputType> | number
-        }
-      }
-    }
-    todo_tags: {
-      payload: Prisma.$todo_tagsPayload<ExtArgs>
-      fields: Prisma.todo_tagsFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.todo_tagsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.todo_tagsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload>
-        }
-        findFirst: {
-          args: Prisma.todo_tagsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.todo_tagsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload>
-        }
-        findMany: {
-          args: Prisma.todo_tagsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload>[]
-        }
-        create: {
-          args: Prisma.todo_tagsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload>
-        }
-        createMany: {
-          args: Prisma.todo_tagsCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.todo_tagsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload>
-        }
-        update: {
-          args: Prisma.todo_tagsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload>
-        }
-        deleteMany: {
-          args: Prisma.todo_tagsDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.todo_tagsUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.todo_tagsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$todo_tagsPayload>
-        }
-        aggregate: {
-          args: Prisma.Todo_tagsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTodo_tags>
-        }
-        groupBy: {
-          args: Prisma.todo_tagsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Todo_tagsGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.todo_tagsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Todo_tagsCountAggregateOutputType> | number
-        }
-      }
-    }
     Producteur: {
       payload: Prisma.$ProducteurPayload<ExtArgs>
       fields: Prisma.ProducteurFieldRefs
@@ -1116,33 +915,6 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const TodosScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  due_date: 'due_date',
-  is_finished: 'is_finished'
-} as const
-
-export type TodosScalarFieldEnum = (typeof TodosScalarFieldEnum)[keyof typeof TodosScalarFieldEnum]
-
-
-export const TagsScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-} as const
-
-export type TagsScalarFieldEnum = (typeof TagsScalarFieldEnum)[keyof typeof TagsScalarFieldEnum]
-
-
-export const Todo_tagsScalarFieldEnum = {
-  todo_id: 'todo_id',
-  tag_id: 'tag_id'
-} as const
-
-export type Todo_tagsScalarFieldEnum = (typeof Todo_tagsScalarFieldEnum)[keyof typeof Todo_tagsScalarFieldEnum]
-
-
 export const ProducteurScalarFieldEnum = {
   id: 'id',
   nom: 'nom',
@@ -1244,21 +1016,6 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-export const todosOrderByRelevanceFieldEnum = {
-  title: 'title',
-  description: 'description'
-} as const
-
-export type todosOrderByRelevanceFieldEnum = (typeof todosOrderByRelevanceFieldEnum)[keyof typeof todosOrderByRelevanceFieldEnum]
-
-
-export const tagsOrderByRelevanceFieldEnum = {
-  name: 'name'
-} as const
-
-export type tagsOrderByRelevanceFieldEnum = (typeof tagsOrderByRelevanceFieldEnum)[keyof typeof tagsOrderByRelevanceFieldEnum]
-
-
 export const ProducteurOrderByRelevanceFieldEnum = {
   nom: 'nom',
   domaine: 'domaine',
@@ -1335,20 +1092,6 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 
 
 /**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -1359,6 +1102,13 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'VinType'
  */
 export type EnumVinTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VinType'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
@@ -1462,9 +1212,6 @@ export interface PrismaClientOptions {
   omit?: GlobalOmitConfig
 }
 export type GlobalOmitConfig = {
-  todos?: Prisma.todosOmit
-  tags?: Prisma.tagsOmit
-  todo_tags?: Prisma.todo_tagsOmit
   producteur?: Prisma.ProducteurOmit
   fournisseur?: Prisma.FournisseurOmit
   emplacement?: Prisma.EmplacementOmit

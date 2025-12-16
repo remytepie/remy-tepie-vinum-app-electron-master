@@ -1,6 +1,6 @@
 {
-  "name": "todos-app",
-  "productName": "todos-app",
+  "name": "vinum-app",
+  "productName": "vinum-app",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
@@ -32,6 +32,7 @@
     "electron": "38.2.1",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.32.0",
+    "prisma": "^6.17.1",
     "typescript": "~5.9.3",
     "vite": "^5.4.20"
   },

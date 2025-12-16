@@ -48,9 +48,6 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
-  todos: 'todos',
-  tags: 'tags',
-  todo_tags: 'todo_tags',
   Producteur: 'Producteur',
   Fournisseur: 'Fournisseur',
   Emplacement: 'Emplacement',
@@ -74,33 +71,6 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-export const TodosScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  due_date: 'due_date',
-  is_finished: 'is_finished'
-} as const
-
-export type TodosScalarFieldEnum = (typeof TodosScalarFieldEnum)[keyof typeof TodosScalarFieldEnum]
-
-
-export const TagsScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-} as const
-
-export type TagsScalarFieldEnum = (typeof TagsScalarFieldEnum)[keyof typeof TagsScalarFieldEnum]
-
-
-export const Todo_tagsScalarFieldEnum = {
-  todo_id: 'todo_id',
-  tag_id: 'tag_id'
-} as const
-
-export type Todo_tagsScalarFieldEnum = (typeof Todo_tagsScalarFieldEnum)[keyof typeof Todo_tagsScalarFieldEnum]
 
 
 export const ProducteurScalarFieldEnum = {
@@ -202,21 +172,6 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const todosOrderByRelevanceFieldEnum = {
-  title: 'title',
-  description: 'description'
-} as const
-
-export type todosOrderByRelevanceFieldEnum = (typeof todosOrderByRelevanceFieldEnum)[keyof typeof todosOrderByRelevanceFieldEnum]
-
-
-export const tagsOrderByRelevanceFieldEnum = {
-  name: 'name'
-} as const
-
-export type tagsOrderByRelevanceFieldEnum = (typeof tagsOrderByRelevanceFieldEnum)[keyof typeof tagsOrderByRelevanceFieldEnum]
 
 
 export const ProducteurOrderByRelevanceFieldEnum = {

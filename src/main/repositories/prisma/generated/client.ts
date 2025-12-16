@@ -28,8 +28,8 @@ export * from "./enums.js"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Todos
- * const todos = await prisma.todos.findMany()
+ * // Fetch zero or more Producteurs
+ * const producteurs = await prisma.producteur.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -40,21 +40,6 @@ export { Prisma }
 
 
 
-/**
- * Model todos
- * 
- */
-export type todos = Prisma.todosModel
-/**
- * Model tags
- * 
- */
-export type tags = Prisma.tagsModel
-/**
- * Model todo_tags
- * 
- */
-export type todo_tags = Prisma.todo_tagsModel
 /**
  * Model Producteur
  * 

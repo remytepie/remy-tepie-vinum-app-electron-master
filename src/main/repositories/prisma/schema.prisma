@@ -27,31 +27,6 @@ enum MouvementType {
   SORTIE
 }
 
-model todos {
-  id          Int         @id @default(autoincrement())
-  title       String?     @db.TinyText
-  description String?     @db.Text
-  due_date    DateTime?   @db.DateTime(0)
-  is_finished Boolean?    @default(dbgenerated("(b'0')")) @db.Bit(1)
-  todo_tags   todo_tags[]
-}
-
-model tags {
-  id        Int         @id @default(autoincrement())
-  name      String?     @db.TinyText
-  todo_tags todo_tags[]
-}
-
-model todo_tags {
-  todo_id Int
-  tag_id  Int
-  todos   todos @relation(fields: [todo_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "todo_tags_ibfk_1")
-  tags    tags  @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "todo_tags_ibfk_2")
-
-  @@id([todo_id, tag_id])
-  @@index([tag_id], map: "tag_id")
-}
-
 model Producteur {
   id             Int     @id @default(autoincrement())
   nom            String  @db.VarChar(191)

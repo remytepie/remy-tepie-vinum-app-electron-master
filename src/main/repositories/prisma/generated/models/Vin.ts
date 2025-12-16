@@ -781,6 +781,10 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type VinCreateNestedOneWithoutTagsInput = {
   create?: Prisma.XOR<Prisma.VinCreateWithoutTagsInput, Prisma.VinUncheckedCreateWithoutTagsInput>
   connectOrCreate?: Prisma.VinCreateOrConnectWithoutTagsInput
