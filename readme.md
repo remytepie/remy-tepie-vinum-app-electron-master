@@ -1,8 +1,8 @@
-🍷 remy-tepie-vinum-app-electron-master
+remy-tepie-vinum-app-electron-master
 
 Application Electron + Vue 3 + Prisma (MySQL / MariaDB) pour la gestion de vins, mouvements, fournisseurs et emplacements.
 
-🚀 Technologies
+Technologies
 
 Electron
 
@@ -12,7 +12,7 @@ Prisma ORM
 
 MySQL / MariaDB
 
-📋 Prérequis
+Prérequis
 
 Node.js ≥ 18
 
@@ -20,7 +20,7 @@ MySQL / MariaDB ≥ 10.6
 
 Git
 
-📦 Installation (PowerShell)
+Installation (PowerShell)
 1️⃣ Cloner le projet
 git clone <votre_repo> remy-tepie-vinum-app-electron-master
 cd remy-tepie-vinum-app-electron-master
@@ -28,7 +28,7 @@ cd remy-tepie-vinum-app-electron-master
 2️⃣ Installer les dépendances
 npm install
 
-🗄️ Base de données
+Base de données
 1️⃣ Créer la base
 CREATE DATABASE cave_vins2;
 
@@ -49,14 +49,14 @@ DATABASE_URL="mysql://root:root@localhost:3306/cave_vins2"
 ▶️ Lancement de l’application
 npm start
 
-🧰 Commandes utiles
+Commandes utiles
 npm run seed
 npm run lint
 npm run package
 npm run make
 npx prisma@6.17.1 generate --schema prisma/schema.prisma
 
-🗂️ Structure du projet
+Structure du projet
 src/
  ├─ main/        # Process principal Electron + repositories Prisma
  ├─ preload/     # Bridge IPC (window.electronService)
@@ -67,4 +67,3 @@ prisma/
 src/main/repositories/prisma/script/
  └─ script.sql             # Script SQL complet
 seed.js                    # Seed Prisma
-
